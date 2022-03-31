@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  
+
+  <title>Lektion 4-paint</title>
+
+</head>
+<body style="background-color: gray;">
+  <h3 id="svg-title">Paint</h3>
+
+  <div id="paint-area"></div>
+  
+  <button id="clear" type="button" 
+    onclick="d3.selectAll('circle').remove()">Clear</button>
+
+  <input id="color" type="color">
+  <input type="range" id="size" min="1" max="20" step="1" value="5"
+    oninput="document.querySelector('#size-out').innerText=this.value">
+  <span id="size-out">5</span>
+
+  <script src="script-paint.js"></script>
+</body>
+</html>
