@@ -2,7 +2,7 @@
 
 //const readImg = (image) => {
 function readImg(image) {
-  console.log(image);
+  //console.log(image);
 
   image.onload = () => {
     console.log("loaded");
@@ -17,15 +17,18 @@ function readImg(image) {
 
     const imgData = context.getImageData(0, 0, canvas.width, canvas.height);
 
-    console.log(imgData);
-    console.log(imgData.data.slice(0,4*10));
+    //console.log(imgData);
+    //console.log(imgData.data.slice(0,4*10));
     
     const d = imgData.data.slice(0,4*10); // arrayen med pixeldata
     const colorData =  []; // ex. colorData[0] = { b: 163, g: 162, r: 158}
     const rgbData = { r: [], g: [], b: [] };
+    const lightness = [];
 
     for (let i = 0; i < d.length; i+=4) {
-      console.log(i)
+      //console.log(i)
+      lightness.push(Math.round((d[i]+d[i+1]+d[i+2])/3));
+
       colorData.push({
         r: d[i],
         g: d[i+1],
@@ -39,7 +42,8 @@ function readImg(image) {
     }
 
     console.log(colorData)
-    console.log(rgbData)
+    console.log(lightness)
+    //console.log(rgbData)
   }
 }
 
