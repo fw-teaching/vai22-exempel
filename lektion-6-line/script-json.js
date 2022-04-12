@@ -1,5 +1,29 @@
 console.log("Json!")
 
+/** backtick-strings */
+const colors = [ 
+  {code: "black", name: "Svart"},
+  {code: "crimson", name: "Röd"},
+  {code: "navy", name: "Blå"}
+];
+colors.push({code: "green", name: "Grön"});
+
+let optionsHtml = "morjens";
+for (color of colors) {
+  optionsHtml += `
+    <option value="${color.code}">
+      ${color.name}
+    </option>
+  `;
+}
+document.querySelector('#color').innerHTML = optionsHtml;
+// d3 event listener
+d3.select('#color').on('click', (event) => {
+  d3.select('#chart path').attr('stroke', event.currentTarget.value)
+});
+/** backtick-strings END */
+
+
 // d3.json använde javascript fetch
 
 //d3.json('https://raw.githubusercontent.com/fw-teaching/vai22-exempel/main/assets/json/currency.json')
@@ -8,13 +32,11 @@ d3.json('../assets/json/currency.json')
     console.log(d);
 });
 
-// "New school" asynkron programmering
-async function getJson() {
+// Namnlös funktion med funktionsanrop som körs genast vid laddning
+(async () => {
   const d = await d3.json('../assets/json/currency.json');
-  //console.log(d);
   createChart(d)
-}
-getJson();
+})();
 
 function createChart(jsonData) {
   console.log(jsonData);
@@ -84,11 +106,12 @@ function createChart(jsonData) {
       )*/
 
     d3.select("#chart svg").append("g")
-        .attr('transform', 'translate('+leftMargin+',0)')
+        //.attr('transform', 'translate('+leftMargin+',0)')
+        .attr('transform', `translate(${leftMargin},0)`)
         .call(yTicks)
 
     d3.select("#chart svg").append("g")
-      .attr('transform','translate('+leftMargin+','+ (height-bottomMargin) +')')
+      .attr('transform',`translate(${leftMargin}, ${height-bottomMargin})`)
       .call(xTicks)
   
 }
