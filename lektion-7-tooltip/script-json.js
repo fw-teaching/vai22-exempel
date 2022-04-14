@@ -41,7 +41,7 @@ d3.json('../assets/json/currency.json')
 
 
 function createChart(jsonData) {
-  console.log(jsonData);
+  //console.log(jsonData);
 
   const chartData = []; // Y-axelns data
   const dates = []; // X-axelns data
@@ -80,8 +80,8 @@ function createChart(jsonData) {
 
   const tooltip = d3.select('#chart')
     .append('div')
-    .attr('id', 'tooltip')
-    .style('display', 'none')
+      .attr('id', 'tooltip')
+      .style('display', 'none')
 
   const chart = d3.select('#chart')
     .append('svg')
@@ -119,7 +119,7 @@ function createChart(jsonData) {
             .html(`
               <div>${d.date}</div>
               <div>${d.avg} ${d.symbol}</div>
-            `)
+            `); // Backticks FTW!
         })
         .on('mouseout', (event) => {
           tooltip.style('display', 'none')
