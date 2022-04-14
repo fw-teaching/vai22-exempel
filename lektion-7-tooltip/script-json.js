@@ -38,15 +38,15 @@ d3.json('../assets/json/currency.json')
   createChart(d)
 })();
 
+
+
 function createChart(jsonData) {
   console.log(jsonData);
 
-  const chartData = [];
-  const xData = [];
-  const dates = [];
+  const chartData = []; // Y-axelns data
+  const dates = []; // X-axelns data
   for (i in jsonData) {
     chartData.push(jsonData[i].avg);
-    xData.push(i); // tillfälligt bara index på X-axeln
     dates.push(new Date(jsonData[i].date));
   }
   
@@ -78,6 +78,11 @@ function createChart(jsonData) {
   const xTicks = d3.axisBottom(xGuideScale)
     .ticks(d3.timeWeek)
 
+  const tooltip = d3.select('#chart')
+    .append('div')
+    .attr('id', 'tooltip')
+    .style('display', 'none')
+
   const chart = d3.select('#chart')
     .append('svg')
     .attr('height', height)
@@ -87,23 +92,38 @@ function createChart(jsonData) {
       .attr('transform', 'translate('+leftMargin+',0)');
 
   chart.append('path')
-    .datum(chartData)
+    .datum(jsonData)
       .attr('fill', 'none')
       .attr('stroke', 'crimson')
       .attr('stroke-width', 3)
       .attr('d', d3.line()
         .x((d, i) => scaleX(dates[i]))
-        .y((d) => height - scaleY(d))
+        .y((d) => height - scaleY(d.avg))
       );
 
   chart.selectAll('circle')
-    .data(chartData)
+    .data(jsonData)
     .enter().append('circle')
       .attr('cx', (d, i) => scaleX(dates[i]))
-      .attr('cy', (d) => height - scaleY(d))
+      .attr('cy', (d) => height - scaleY(d.avg))
       .attr('r', 5)
       .attr('fill', 'white') 
       .style('stroke', 'red')
+        .on('mouseover', (event, d) => {
+          const xy = d3.pointer(event);
+          console.log([event.pageX, event.pageY]) // x,y relativ till sidan
+          console.log(xy) // x,y relativ till grafen
+          tooltip.style('display', 'block')
+            .style('left', xy[0] + 60 + 'px')
+            .style('top', xy[1] + 'px')
+            .html(`
+              <div>${d.date}</div>
+              <div>${d.avg} ${d.symbol}</div>
+            `)
+        })
+        .on('mouseout', (event) => {
+          tooltip.style('display', 'none')
+        })
 
   d3.select("#chart svg").append("g")
       //.attr('transform', 'translate('+leftMargin+',0)')
@@ -113,5 +133,7 @@ function createChart(jsonData) {
   d3.select("#chart svg").append("g")
     .attr('transform',`translate(${leftMargin}, ${height-bottomMargin})`)
     .call(xTicks)
+
+
 
 }
