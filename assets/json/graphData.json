@@ -1,0 +1,144 @@
+[
+  {
+    "id": "gumt",
+    "name": "Gumtäkts uni.bibliotek",
+    "links": [
+      "bole",
+      "arca"
+    ],
+    "volume": 20
+  },
+  {
+    "id": "lill",
+    "name": "Lillhoplax bibliotek",
+    "links": [
+      "bole",
+      "mejl"
+    ],
+    "volume": 20
+  },
+  {
+    "id": "bole",
+    "name": "Böle bibliotek",
+    "links": [
+      "lill",
+      "tolo",
+      "gumt"
+    ],
+    "volume": 30
+  },
+  {
+    "id": "arca",
+    "name": "Arcadas bibliotek",
+    "links": [
+      "gumt",
+      "diak"
+    ],
+    "volume": 20
+  },
+  {
+    "id": "diak",
+    "name": "Diaks bibliotek",
+    "links": [
+      "arca",
+      "vall"
+    ],
+    "volume": 20
+  },
+  {
+    "id": "vall",
+    "name": "Vallgårds bibliotek",
+    "links": [
+      "diak",
+      "berg"
+    ],
+    "volume": 21
+  },
+  {
+    "id": "mejl",
+    "name": "Mejlans uni.bibliotek",
+    "links": [
+      "lill",
+      "tolo"
+    ],
+    "volume": 29
+  },
+  {
+    "id": "berg",
+    "name": "Berghälls bibliotek",
+    "links": [
+      "vall",
+      "tolo",
+      "sorn"
+    ],
+    "volume": 35
+  },
+  {
+    "id": "tolo",
+    "name": "Tölö bibliotek",
+    "links": [
+      "bole",
+      "mejl",
+      "berg",
+      "oodi",
+      "hank"
+    ],
+    "volume": 53
+  },
+  {
+    "id": "sorn",
+    "name": "Sörnäs uni.bibliotek",
+    "links": [
+      "berg"
+    ],
+    "volume": 11
+  },
+  {
+    "id": "oodi",
+    "name": "Centrumbiblioteket Ode",
+    "links": [
+      "tolo",
+      "berg",
+      "hank",
+      "hels"
+    ],
+    "volume": 75
+  },
+  {
+    "id": "hels",
+    "name": "Helsingfors uni.bibliotek",
+    "links": [
+      "oodi",
+      "rich"
+    ],
+    "volume": 66
+  },
+  {
+    "id": "hank",
+    "name": "Hankens bibliotek",
+    "links": [
+      "tolo",
+      "oodi",
+      "bush"
+    ],
+    "volume": 38
+  },
+  {
+    "id": "rich",
+    "name": "Richardsgatans bibliotek",
+    "links": [
+      "hels",
+      "bush"
+    ],
+    "volume": 25
+  },
+  {
+    "id": "bush",
+    "name": "Busholmens bibliotek",
+    "links": [
+      "hank",
+      "rich"
+    ],
+    "volume": 20
+  }
+]

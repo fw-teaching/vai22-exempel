@@ -29,7 +29,7 @@ d3.select('#color').on('click', (event) => {
 //d3.json('https://raw.githubusercontent.com/fw-teaching/vai22-exempel/main/assets/json/currency.json')
 d3.json('../assets/json/currency.json')
   .then(function (d) {
-    console.log(d);
+    //console.log(d);
 });
 
 // Namnlös funktion med funktionsanrop som körs genast vid laddning
@@ -50,7 +50,7 @@ function createChart(jsonData) {
     dates.push(new Date(jsonData[i].date));
   }
   
-  console.log(dates)
+  console.log(jsonData)
   const width = 500, 
     height = 300, 
     leftMargin = 40,
@@ -111,8 +111,14 @@ function createChart(jsonData) {
       .style('stroke', 'red')
         .on('mouseover', (event, d) => {
           const xy = d3.pointer(event);
+
+          // För att få datasettets index i en eventhandler:
+          const i = chart.selectAll('circle').nodes().indexOf(event.currentTarget);
+          console.log("index: " + i)
+
           console.log([event.pageX, event.pageY]) // x,y relativ till sidan
           console.log(xy) // x,y relativ till grafen
+
           tooltip.style('display', 'block')
             .style('left', xy[0] + 60 + 'px')
             .style('top', xy[1] + 'px')
