@@ -20,22 +20,16 @@ console.log("hello");
 
   //console.log({nodes: data, links: edges})
   
-  createGraph({
+  createLabeledGraph({
     nodes: data, 
     links: edges
   });
 
 })();
 
-const width = 600, height = 600;
-
-function createGraph(data) {
+function createLabeledGraph(data) {
+  console.log("LABELS!")
   // Källa för boilerplate: https://www.pluralsight.com/guides/creating-force-layout-graphs-in-d3
-
-  const tooltip = d3.select("#chart").append('div')
-    .attr('id', 'tooltip')
-    .style('position', 'absolute')
-    .style('display', 'none')
 
   const simulation = d3.forceSimulation(data.nodes)
     // charge: "laddning", nodernas attraktionskraft. 
@@ -45,7 +39,7 @@ function createGraph(data) {
       .distance(70))
     .force('center', d3.forceCenter(width/2, height/2)) // Nodernas mittpunkt i medeltal
 
-  const svg = d3.select("#chart").append('svg')
+  const svg = d3.select("#chart-labels").append('svg')
     .style('background', 'aliceblue')
     // Responsiv SVG med viewBox!
     .attr("viewBox", [0, 0, width, height]);
@@ -55,21 +49,14 @@ function createGraph(data) {
     .data(data.links)
     .enter()
       .append('path')
-      .attr('stroke', 'black')
+      .attr('stroke', 'teal')
       .attr('stroke-width', d => d.traffic * 0.3)
       .attr('fill', 'none');
 
-  const node = svg.selectAll('circle')
+  const node = svg.selectAll('myNodes')
     .data(data.nodes)
     .enter()
-      .append('circle')
-        .attr('r', d => d.volume/2+5)
-        .attr('fill', 'white')
-        .attr('stroke', 'crimson')
-      .on('mouseover', showTooltip)
-      .on('mouseout', () => {
-        tooltip.style('display', 'none')
-      })
+      .append('g') // Group för att kunna flytta på flera element samtidigt
       .call(d3.drag()
         .on('start', (event, d) => {
           if (!event.active) simulation.alphaTarget(0.3).restart();
@@ -87,13 +74,26 @@ function createGraph(data) {
           if (!event.active) simulation.alphaTarget(0);
         })
       )
+      .style('cursor', 'default')
+
+  node.append('circle')
+    .attr('r', d => d.volume/2+5)
+    .attr('fill', 'white')
+    .attr('stroke', 'crimson')
+
+  // text-element i SVG
+  node.append('text')
+    .style('text-anchor', 'middle')
+    .attr('dominant-baseline', 'central')
+    .attr('font-size', d => d.volume/5+8)
+    .text(d => d.id)
 
   const lineGenerator = d3.line();
 
   // 'tick' är event för varje "frame" i animationen
   simulation.on('tick', () => {
-    node.attr('cx', d => d.x)
-      .attr('cy', d => d.y);
+    //node.attr('cx', d => d.x).attr('cy', d => d.y);
+    node.attr('transform', d => `translate(${d.x}, ${d.y})`)
 
     link.attr('d', d => lineGenerator([
       [d.source.x, d.source.y],
@@ -101,20 +101,6 @@ function createGraph(data) {
     )
 
   });
-
-  function showTooltip(event, d) {
-    console.log(d)
-    // När vi använder viewBox måste vi räkna ut positionen
-    const realWidth = svg.style('width').replace("px", "");
-    const coefficient = realWidth / width;
-    tooltip.style('display', 'block')
-      .style('left', d.x * coefficient + 30 + "px")
-      .style('top', d.y * coefficient + "px")
-    tooltip.html(d.name)
-  }
-
-
-  //return svg.node();
 
 }
 
